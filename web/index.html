@@ -4,24 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram 上传工具</title>
-    <!-- 确保外部资源正确加载 -->
+    
+    <!-- 多CDN源确保资源加载 -->
     <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+    <link href="https://unpkg.com/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
     
+    <!-- 基础样式备份 -->
+    <style>
+        /* 核心样式备份，防止CDN失效 */
+        .bg-primary { background-color: #2563eb !important; }
+        .bg-secondary { background-color: #1e40af !important; }
+        .text-white { color: white !important; }
+        .rounded-lg { border-radius: 0.5rem !important; }
+        .rounded-xl { border-radius: 0.75rem !important; }
+        .rounded-2xl { border-radius: 1rem !important; }
+        .p-4 { padding: 1rem !important; }
+        .p-6 { padding: 1.5rem !important; }
+        .m-4 { margin: 1rem !important; }
+        .flex { display: flex !important; }
+        .items-center { align-items: center !important; }
+        .justify-center { justify-content: center !important; }
+        .justify-between { justify-content: space-between !important; }
+        .shadow { box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important; }
+        .shadow-lg { box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important; }
+        .card { 
+            background: white !important; 
+            border-radius: 0.75rem !important; 
+            padding: 1.5rem !important; 
+            margin-bottom: 1rem !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+        }
+        button {
+            background: #2563eb !important;
+            color: white !important;
+            border: none !important;
+            padding: 0.75rem 1.5rem !important;
+            border-radius: 0.5rem !important;
+            cursor: pointer !important;
+            font-weight: 500 !important;
+        }
+        input {
+            border: 1px solid #ddd !important;
+            padding: 0.75rem !important;
+            border-radius: 0.5rem !important;
+            width: 100% !important;
+        }
+        .hidden { display: none !important; }
+        .text-xl { font-size: 1.25rem !important; }
+        .text-2xl { font-size: 1.5rem !important; }
+        .font-bold { font-weight: 700 !important; }
+        .font-medium { font-weight: 500 !important; }
+        .mb-4 { margin-bottom: 1rem !important; }
+        .mb-6 { margin-bottom: 1.5rem !important; }
+        .mt-4 { margin-top: 1rem !important; }
+        .text-gray-500 { color: #6b7280 !important; }
+        .text-gray-700 { color: #374151 !important; }
+        .border { border: 1px solid #ddd !important; }
+        .border-b { border-bottom: 1px solid #ddd !important; }
+        
+        /* 确保动画效果 */
+        .card-hover {
+            transition: all 0.3s ease !important;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px) !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+        }
+        .transition-all {
+            transition: all 0.3s ease !important;
+        }
+    </style>
+    
     <script>
-        // 确保Tailwind配置正确应用
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#2563eb',
-                        secondary: '#1e40af',
-                        accent: '#3b82f6',
-                    },
-                    fontFamily: {
-                        inter: ['Inter', 'system-ui', 'sans-serif'],
-                    },
+        // 仅在Tailwind加载成功后执行配置
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: '#2563eb',
+                            secondary: '#1e40af',
+                            accent: '#3b82f6',
+                        },
+                        fontFamily: {
+                            inter: ['Inter', 'system-ui', 'sans-serif'],
+                        },
+                    }
                 }
             }
         }
@@ -36,13 +107,6 @@
                 background-clip: text;
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
-            }
-            .card-hover {
-                transition: all 0.3s ease;
-            }
-            .card-hover:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             }
         }
     </style>
@@ -75,9 +139,7 @@
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <i class="fa fa-user text-gray-400"></i>
                                 </div>
-                                <input type="text" id="login-username" 
-                                    class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                                    placeholder="输入用户名" required>
+                                <input type="text" id="login-username" class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="输入用户名" required>
                             </div>
                         </div>
                         
@@ -87,9 +149,7 @@
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <i class="fa fa-lock text-gray-400"></i>
                                 </div>
-                                <input type="password" id="login-password" 
-                                    class="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                                    placeholder="输入密码" required>
+                                <input type="password" id="login-password" class="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="输入密码" required>
                                 <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
                                     <i class="fa fa-eye-slash"></i>
                                 </button>
@@ -399,8 +459,27 @@
     <div id="notification" class="fixed bottom-4 right-4 p-4 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50 max-w-sm hidden"></div>
 
     <script>
-        // 确保DOM加载完成后执行
+        // 资源加载检查
+        function checkResources() {
+            // 检查Tailwind
+            if (typeof tailwind === 'undefined') {
+                console.log('Tailwind CSS未加载，使用备份样式');
+                document.body.classList.add('using-fallback-styles');
+            }
+            
+            // 检查Font Awesome
+            const fontAwesomeLoaded = document.querySelector('link[href*="font-awesome"]') && 
+                                    typeof FontAwesome !== 'undefined';
+            if (!fontAwesomeLoaded) {
+                console.log('Font Awesome未加载，图标可能无法正常显示');
+            }
+        }
+        
+        // DOM加载完成后执行
         document.addEventListener('DOMContentLoaded', function() {
+            // 检查资源加载情况
+            checkResources();
+            
             // DOM 元素
             const loginPage = document.getElementById('login-page');
             const app = document.getElementById('app');
@@ -490,7 +569,7 @@
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     
                     // 添加过渡动画
-                    loginPage.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+                    loginPage.classList.add('opacity-0', 'transition-all', 'duration-300');
                     setTimeout(() => {
                         loginPage.classList.add('hidden');
                         app.classList.remove('hidden');
@@ -627,4 +706,3 @@
     </script>
 </body>
 </html>
-    

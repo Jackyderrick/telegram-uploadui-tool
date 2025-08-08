@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram 上传工具 - 可视化界面</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
     <script>
         tailwind.config = {
@@ -15,15 +15,6 @@
                         primary: '#2563eb',
                         secondary: '#1e40af',
                         accent: '#3b82f6',
-                        neutral: '#f3f4f6',
-                        'neutral-dark': '#e5e7eb'
-                    },
-                    fontFamily: {
-                        inter: ['Inter', 'system-ui', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        'card': '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03)',
-                        'card-hover': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
                     }
                 }
             }
@@ -37,37 +28,25 @@
             .transition-all-300 {
                 transition: all 300ms ease-in-out;
             }
-            .bg-gradient-primary {
-                background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            .setting-card {
+                @apply bg-white rounded-xl shadow-md p-6 mb-6 hover:shadow-lg transition-all duration-300;
             }
-            .text-shadow {
-                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            }
-            .scrollbar-hide::-webkit-scrollbar {
-                display: none;
-            }
-            .file-hover {
-                @apply transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300;
-            }
-            .input-focus {
-                @apply focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
-            }
-            .table-row-hover {
-                @apply hover:bg-gray-50 transition-all-300;
+            .nav-active {
+                @apply text-primary border-primary;
             }
         }
     </style>
 </head>
-<body class="bg-gray-50 font-inter text-gray-800 min-h-screen flex flex-col">
+<body class="bg-gray-50 font-sans">
     <!-- 登录页面 -->
     <div id="login-page" class="fixed inset-0 bg-gray-50 z-50 flex items-center justify-center p-4">
         <div class="w-full max-w-md">
-            <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all">
-                <div class="bg-gradient-primary p-6 text-center">
-                    <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4">
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="bg-gradient-to-r from-primary to-secondary p-6 text-center">
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fa fa-paper-plane text-white text-2xl"></i>
                     </div>
-                    <h2 class="text-2xl font-bold text-white text-shadow">Telegram 上传工具</h2>
+                    <h2 class="text-2xl font-bold text-white">Telegram 上传工具</h2>
                     <p class="text-blue-100 mt-1">请登录以继续使用</p>
                 </div>
                 
@@ -80,7 +59,7 @@
                                     <i class="fa fa-user text-gray-400"></i>
                                 </div>
                                 <input type="text" id="login-username" 
-                                    class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg input-focus"
+                                    class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                     placeholder="输入用户名" required>
                             </div>
                         </div>
@@ -92,7 +71,7 @@
                                     <i class="fa fa-lock text-gray-400"></i>
                                 </div>
                                 <input type="password" id="login-password" 
-                                    class="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg input-focus"
+                                    class="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                     placeholder="输入密码" required>
                                 <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
                                     <i class="fa fa-eye-slash"></i>
@@ -100,17 +79,8 @@
                             </div>
                         </div>
                         
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <input type="checkbox" id="remember-me" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
-                                <label for="remember-me" class="ml-2 block text-sm text-gray-700">记住我</label>
-                            </div>
-                            <a href="#" class="text-sm text-primary hover:text-secondary transition-all-300">忘记密码?</a>
-                        </div>
-                        
-                        <button type="submit" id="login-button" class="w-full bg-primary text-white px-4 py-2.5 rounded-lg font-medium hover:bg-secondary transition-all-300 flex items-center justify-center">
-                            <span>登录</span>
-                            <i class="fa fa-arrow-right ml-2"></i>
+                        <button type="submit" id="login-button" class="w-full bg-primary text-white px-4 py-2.5 rounded-lg font-medium hover:bg-secondary transition-all-300">
+                            登录 <i class="fa fa-arrow-right ml-1"></i>
                         </button>
                     </form>
                     
@@ -122,10 +92,6 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="mt-6 text-center text-gray-500 text-sm">
-                <p>&copy; 2023 Telegram 上传工具 - 保护你的文件安全</p>
-            </div>
         </div>
     </div>
 
@@ -135,19 +101,13 @@
         <header class="bg-white shadow-sm sticky top-0 z-40">
             <div class="container mx-auto px-4 py-4 flex justify-between items-center">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
+                    <div class="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center">
                         <i class="fa fa-paper-plane text-white text-xl"></i>
                     </div>
-                    <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-primary">Telegram 上传工具</h1>
+                    <h1 class="text-xl font-bold">Telegram 上传工具</h1>
                 </div>
                 
                 <div class="flex items-center space-x-6">
-                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 transition-all-300">
-                        <i class="fa fa-moon-o text-gray-600"></i>
-                    </button>
-                    <button id="help-btn" class="p-2 rounded-full hover:bg-gray-100 transition-all-300">
-                        <i class="fa fa-question text-gray-600"></i>
-                    </button>
                     <div class="relative" id="user-menu-container">
                         <button id="user-menu-button" class="flex items-center space-x-2 focus:outline-none">
                             <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-medium">
@@ -157,8 +117,9 @@
                             <i class="fa fa-chevron-down text-xs text-gray-500"></i>
                         </button>
                         <div id="user-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-50 hidden">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">个人设置</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">修改密码</a>
+                            <a href="#settings" class="setting-link block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-tab="account">个人设置</a>
+                            <a href="#settings" class="setting-link block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-tab="telegram">Telegram 配置</a>
+                            <a href="#settings" class="setting-link block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-tab="security">账号安全</a>
                             <div class="border-t border-gray-100 my-1"></div>
                             <a href="#" id="logout-button" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">退出登录</a>
                         </div>
@@ -169,17 +130,14 @@
             <!-- 功能导航 -->
             <div class="border-t border-gray-100">
                 <div class="container mx-auto px-4">
-                    <nav class="flex space-x-8 py-3 overflow-x-auto scrollbar-hide">
-                        <a href="#upload" class="nav-link text-primary font-medium flex items-center whitespace-nowrap">
+                    <nav class="flex space-x-8 py-3 overflow-x-auto">
+                        <a href="#upload" class="nav-link text-primary font-medium flex items-center whitespace-nowrap border-b-2 border-primary pb-1">
                             <i class="fa fa-cloud-upload mr-2"></i>上传/下载
                         </a>
-                        <a href="#file-list" class="nav-link text-gray-500 hover:text-primary transition-all-300 font-medium flex items-center whitespace-nowrap">
+                        <a href="#file-list" class="nav-link text-gray-500 hover:text-primary transition-all-300 font-medium flex items-center whitespace-nowrap border-b-2 border-transparent pb-1 hover:border-primary/30">
                             <i class="fa fa-list mr-2"></i>文件列表
                         </a>
-                        <a href="#statistics" class="nav-link text-gray-500 hover:text-primary transition-all-300 font-medium flex items-center whitespace-nowrap">
-                            <i class="fa fa-bar-chart mr-2"></i>使用统计
-                        </a>
-                        <a href="#settings" class="nav-link text-gray-500 hover:text-primary transition-all-300 font-medium flex items-center whitespace-nowrap">
+                        <a href="#settings" class="nav-link text-gray-500 hover:text-primary transition-all-300 font-medium flex items-center whitespace-nowrap border-b-2 border-transparent pb-1 hover:border-primary/30">
                             <i class="fa fa-cog mr-2"></i>设置
                         </a>
                     </nav>
@@ -188,384 +146,193 @@
         </header>
 
         <!-- 主内容区 -->
-        <main class="flex-grow container mx-auto px-4 py-8 max-w-6xl">
-            <!-- 欢迎卡片 -->
-            <div class="bg-gradient-primary text-white rounded-2xl shadow-lg p-6 md:p-8 mb-8 transform hover:scale-[1.01] transition-all-300">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
-                    <div class="mb-6 md:mb-0">
-                        <h2 class="text-[clamp(1.5rem,3vw,2rem)] font-bold text-shadow mb-2">欢迎回来，<span id="welcome-username">用户</span></h2>
-                        <p class="text-blue-100 max-w-xl">轻松通过 Telegram 存储和管理你的文件，支持大文件上传与下载</p>
-                    </div>
-                    <div class="flex space-x-4">
-                        <button id="quick-upload-btn" class="bg-white text-primary px-5 py-2.5 rounded-lg font-medium hover:bg-blue-50 transition-all-300 shadow-md">
-                            <i class="fa fa-cloud-upload mr-2"></i>快速上传
-                        </button>
-                        <button id="refresh-stats-btn" class="bg-white/20 backdrop-blur-sm text-white px-5 py-2.5 rounded-lg font-medium hover:bg-white/30 transition-all-300">
-                            <i class="fa fa-refresh mr-2"></i>刷新状态
+        <main class="container mx-auto px-4 py-8 max-w-6xl">
+            <!-- 上传下载区域 -->
+            <div id="upload-section" class="space-y-8">
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h2 class="text-xl font-semibold mb-4">文件上传</h2>
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                        <i class="fa fa-file-o text-4xl text-gray-400 mb-4"></i>
+                        <p class="text-gray-600 mb-4">拖放文件到这里，或者点击下方按钮选择文件</p>
+                        <button class="bg-primary text-white px-6 py-2.5 rounded-lg font-medium hover:bg-secondary transition-all-300">
+                            <i class="fa fa-folder-open mr-2"></i>选择文件
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- 统计卡片 -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white rounded-xl shadow-card p-6 hover:shadow-card-hover transition-all-300">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <p class="text-gray-500 text-sm">已上传文件</p>
-                            <h3 class="text-3xl font-bold mt-1" id="uploaded-count">12</h3>
-                        </div>
-                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                            <i class="fa fa-arrow-up text-primary text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="flex items-center text-green-500 text-sm">
-                        <i class="fa fa-arrow-up mr-1"></i>
-                        <span>较上周增长 24%</span>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl shadow-card p-6 hover:shadow-card-hover transition-all-300">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <p class="text-gray-500 text-sm">已下载文件</p>
-                            <h3 class="text-3xl font-bold mt-1" id="downloaded-count">8</h3>
-                        </div>
-                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                            <i class="fa fa-arrow-down text-green-600 text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="flex items-center text-green-500 text-sm">
-                        <i class="fa fa-arrow-up mr-1"></i>
-                        <span>较上周增长 12%</span>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl shadow-card p-6 hover:shadow-card-hover transition-all-300">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <p class="text-gray-500 text-sm">总存储大小</p>
-                            <h3 class="text-3xl font-bold mt-1" id="storage-size">4.2 GB</h3>
-                        </div>
-                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                            <i class="fa fa-hdd-o text-purple-600 text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="flex items-center text-yellow-500 text-sm">
-                        <i class="fa fa-exclamation-circle mr-1"></i>
-                        <span>已使用 42% 存储空间</span>
+            <!-- 文件列表区域 -->
+            <div id="file-list-section" class="hidden space-y-8">
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h2 class="text-xl font-semibold mb-4">文件列表</h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">文件名</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">大小</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">上传时间</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <i class="fa fa-file-text-o text-primary mr-3"></i>
+                                            <div>
+                                                <div class="text-sm font-medium text-gray-900">文档示例.pdf</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-500">2.4 MB</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-500">2023-06-15 14:30</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <a href="#" class="text-primary hover:text-secondary mr-3">下载</a>
+                                        <a href="#" class="text-red-500 hover:text-red-700">删除</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
 
-            <!-- 主要功能区 -->
-            <div class="space-y-8">
-                <!-- 上传下载区域 -->
-                <div id="upload" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div class="lg:col-span-2 space-y-8">
-                        <!-- 上传区域 -->
-                        <div class="bg-white rounded-xl shadow-card overflow-hidden hover:shadow-card-hover transition-all-300">
-                            <div class="p-6 border-b border-gray-100">
-                                <h2 class="text-xl font-semibold flex items-center">
-                                    <i class="fa fa-cloud-upload text-primary mr-3"></i> 文件上传
-                                </h2>
-                            </div>
-                            
-                            <div class="p-6">
-                                <!-- 拖放区域 -->
-                                <div id="drop-area" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-6 hover:border-primary transition-all-300 bg-gray-50">
-                                    <i class="fa fa-file-o text-4xl text-gray-400 mb-4"></i>
-                                    <p class="text-gray-600 mb-2">拖放文件到这里，或者</p>
-                                    <label class="inline-block bg-primary text-white px-6 py-2.5 rounded-lg font-medium hover:bg-secondary transition-all-300 cursor-pointer">
-                                        <i class="fa fa-folder-open mr-2"></i>选择文件
-                                        <input type="file" multiple class="hidden" id="file-input">
-                                    </label>
-                                    <p class="text-gray-500 text-sm mt-4">支持最大文件大小：4GB</p>
+            <!-- 设置区域 -->
+            <div id="settings-section" class="hidden space-y-8">
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h2 class="text-2xl font-semibold mb-6">设置</h2>
+                    
+                    <!-- 设置选项卡导航 -->
+                    <div class="border-b border-gray-200 mb-6">
+                        <nav class="-mb-px flex space-x-8">
+                            <button class="setting-tab-btn nav-active px-1 py-4 border-b-2 text-sm font-medium" data-tab="account">
+                                <i class="fa fa-user mr-2"></i>个人设置
+                            </button>
+                            <button class="setting-tab-btn px-1 py-4 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="telegram">
+                                <i class="fa fa-paper-plane mr-2"></i>Telegram 配置
+                            </button>
+                            <button class="setting-tab-btn px-1 py-4 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300" data-tab="security">
+                                <i class="fa fa-lock mr-2"></i>账号安全
+                            </button>
+                        </nav>
+                    </div>
+                    
+                    <!-- 个人设置选项卡 -->
+                    <div class="setting-tab-content" id="account-tab">
+                        <div class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                                <div class="md:col-span-1">
+                                    <h3 class="text-lg font-medium text-gray-900">个人资料</h3>
+                                    <p class="text-sm text-gray-500 mt-1">更新你的个人信息</p>
                                 </div>
-                                
-                                <!-- 待上传文件列表 -->
-                                <div id="upload-queue" class="mb-6 hidden">
-                                    <h3 class="font-medium text-gray-700 mb-3">待上传文件</h3>
-                                    <div class="space-y-3 max-h-40 overflow-y-auto scrollbar-hide pr-2" id="upload-files-list">
-                                        <!-- 待上传文件项会动态添加到这里 -->
+                                <div class="md:col-span-2 space-y-4">
+                                    <div>
+                                        <label for="full-name" class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
+                                        <input type="text" id="full-name" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">邮箱</label>
+                                        <input type="email" id="email" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label for="bio" class="block text-sm font-medium text-gray-700 mb-1">个人简介</label>
+                                        <textarea id="bio" rows="3" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
+                                    </div>
+                                    <button id="save-account-btn" class="bg-primary text-white px-6 py-2.5 rounded-lg font-medium hover:bg-secondary transition-all-300">
+                                        保存更改
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Telegram 配置选项卡 -->
+                    <div class="setting-tab-content hidden" id="telegram-tab">
+                        <div class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+                                <div class="md:col-span-1">
+                                    <h3 class="text-lg font-medium text-gray-900">Telegram 配置</h3>
+                                    <p class="text-sm text-gray-500 mt-1">设置你的 Telegram API 信息以启用上传功能</p>
+                                    <div class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                                        <p class="text-sm text-blue-700">
+                                            <i class="fa fa-info-circle mr-1"></i> 
+                                            你可以在 <a href="https://my.telegram.org/" target="_blank" class="text-primary hover:underline">Telegram 开发者平台</a> 获取 API 信息
+                                        </p>
                                     </div>
                                 </div>
-                                
-                                <!-- 上传控制 -->
-                                <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-                                    <div class="flex items-center space-x-4">
-                                        <div class="flex items-center">
-                                            <label for="parallel-upload" class="text-gray-600 mr-2 text-sm">并行上传：</label>
-                                            <select id="parallel-upload" class="border border-gray-300 rounded px-3 py-1.5 text-sm input-focus">
-                                                <option value="4">4 线程</option>
-                                                <option value="6">6 线程</option>
-                                                <option value="8">8 线程</option>
-                                                <option value="12">12 线程</option>
-                                            </select>
-                                        </div>
-                                        
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="delete-after-upload" class="mr-2">
-                                            <label for="delete-after-upload" class="text-gray-600 text-sm">上传后删除本地文件</label>
+                                <div class="md:col-span-2 space-y-4">
+                                    <!-- 配置状态提示 -->
+                                    <div id="telegram-config-status" class="p-4 rounded-lg bg-green-50 border border-green-100 hidden mb-4">
+                                        <div class="flex items-start">
+                                            <i class="fa fa-check-circle text-green-500 mt-0.5 mr-3"></i>
+                                            <div>
+                                                <h3 class="font-medium text-green-800">配置已完成</h3>
+                                                <p class="text-sm text-green-700 mt-1">你的 Telegram 账号已成功配置</p>
+                                                <button id="reset-telegram-config" class="mt-2 text-sm text-primary hover:underline">
+                                                    重新配置
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                     
-                                    <button id="start-upload-btn" class="bg-primary text-white px-6 py-2.5 rounded-lg font-medium hover:bg-secondary transition-all-300 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                                        <i class="fa fa-play mr-2"></i>开始上传
+                                    <!-- 配置表单 -->
+                                    <div id="telegram-config-form">
+                                        <div>
+                                            <label for="api-id" class="block text-sm font-medium text-gray-700 mb-1">API ID</label>
+                                            <input type="text" id="api-id" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="输入你的 Telegram API ID">
+                                        </div>
+                                        <div>
+                                            <label for="api-hash" class="block text-sm font-medium text-gray-700 mb-1">API Hash</label>
+                                            <input type="text" id="api-hash" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="输入你的 Telegram API Hash">
+                                        </div>
+                                        <div>
+                                            <label for="phone-number" class="block text-sm font-medium text-gray-700 mb-1">手机号</label>
+                                            <input type="text" id="phone-number" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="例如: +8613800138000">
+                                        </div>
+                                        <div>
+                                            <label for="channel" class="block text-sm font-medium text-gray-700 mb-1">目标频道/聊天ID</label>
+                                            <input type="text" id="channel" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="文件将上传到此频道">
+                                        </div>
+                                        <button id="save-telegram-config" class="bg-primary text-white px-6 py-2.5 rounded-lg font-medium hover:bg-secondary transition-all-300">
+                                            保存配置
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 账号安全选项卡 -->
+                    <div class="setting-tab-content hidden" id="security-tab">
+                        <div class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                                <div class="md:col-span-1">
+                                    <h3 class="text-lg font-medium text-gray-900">修改密码</h3>
+                                    <p class="text-sm text-gray-500 mt-1">更新你的登录密码</p>
+                                </div>
+                                <div class="md:col-span-2 space-y-4">
+                                    <div>
+                                        <label for="current-password" class="block text-sm font-medium text-gray-700 mb-1">当前密码</label>
+                                        <input type="password" id="current-password" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label for="new-password" class="block text-sm font-medium text-gray-700 mb-1">新密码</label>
+                                        <input type="password" id="new-password" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-1">确认新密码</label>
+                                        <input type="password" id="confirm-password" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    </div>
+                                    <button id="change-password-btn" class="bg-primary text-white px-6 py-2.5 rounded-lg font-medium hover:bg-secondary transition-all-300">
+                                        修改密码
                                     </button>
                                 </div>
-                                
-                                <!-- 上传进度 -->
-                                <div id="upload-progress" class="mt-6 hidden">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <span id="uploading-filename" class="text-sm font-medium"></span>
-                                        <span id="upload-percentage" class="text-sm text-gray-500">0%</span>
-                                    </div>
-                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                        <div id="upload-progress-bar" class="bg-primary h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
-                                    </div>
-                                    <div class="flex justify-between mt-2 text-xs text-gray-500">
-                                        <span id="uploaded-size">0 MB / 0 MB</span>
-                                        <span id="upload-speed">0 MB/s</span>
-                                    </div>
-                                </div>
                             </div>
-                        </div>
-                        
-                        <!-- 下载区域 -->
-                        <div class="bg-white rounded-xl shadow-card overflow-hidden hover:shadow-card-hover transition-all-300">
-                            <div class="p-6 border-b border-gray-100">
-                                <h2 class="text-xl font-semibold flex items-center">
-                                    <i class="fa fa-cloud-download text-primary mr-3"></i> 文件下载
-                                </h2>
-                            </div>
-                            
-                            <div class="p-6">
-                                <button id="list-remote-files" class="bg-gray-100 text-gray-700 px-5 py-2 rounded-lg font-medium hover:bg-gray-200 transition-all-300 mb-6">
-                                    <i class="fa fa-refresh mr-2"></i>刷新远程文件列表
-                                </button>
-                                
-                                <!-- 远程文件列表 -->
-                                <div class="space-y-3 max-h-60 overflow-y-auto scrollbar-hide pr-2 mb-6" id="remote-files-list">
-                                    <div class="flex items-center justify-center py-10 text-gray-500">
-                                        <i class="fa fa-circle-o-notch fa-spin mr-2"></i> 点击上方按钮加载文件列表
-                                    </div>
-                                </div>
-                                
-                                <!-- 下载进度 -->
-                                <div id="download-progress" class="mt-6 hidden">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <span id="downloading-filename" class="text-sm font-medium"></span>
-                                        <span id="download-percentage" class="text-sm text-gray-500">0%</span>
-                                    </div>
-                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                        <div id="download-progress-bar" class="bg-green-500 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
-                                    </div>
-                                    <div class="flex justify-between mt-2 text-xs text-gray-500">
-                                        <span id="downloaded-size">0 MB / 0 MB</span>
-                                        <span id="download-speed">0 MB/s</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 右侧：本地文件管理 -->
-                    <div>
-                        <div class="bg-white rounded-xl shadow-card overflow-hidden hover:shadow-card-hover transition-all-300">
-                            <div class="p-6 border-b border-gray-100 flex justify-between items-center">
-                                <h2 class="text-xl font-semibold flex items-center">
-                                    <i class="fa fa-folder-open text-primary mr-3"></i> 本地文件
-                                </h2>
-                                <button id="refresh-local-files" class="text-gray-500 hover:text-primary transition-all-300">
-                                    <i class="fa fa-refresh"></i>
-                                </button>
-                            </div>
-                            
-                            <div class="p-6">
-                                <div class="relative mb-4">
-                                    <input type="text" id="local-file-search" placeholder="搜索本地文件..." 
-                                        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg input-focus">
-                                    <i class="fa fa-search absolute left-3 top-3 text-gray-400"></i>
-                                </div>
-                                
-                                <div class="space-y-2 max-h-96 overflow-y-auto scrollbar-hide pr-2" id="local-files-list">
-                                    <!-- 本地文件会动态添加到这里 -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 文件列表区域 -->
-                <div id="file-list" class="bg-white rounded-xl shadow-card overflow-hidden hover:shadow-card-hover transition-all-300">
-                    <div class="p-6 border-b border-gray-100">
-                        <h2 class="text-xl font-semibold flex items-center">
-                            <i class="fa fa-list text-primary mr-3"></i> 我的文件列表
-                        </h2>
-                    </div>
-                    
-                    <div class="p-6">
-                        <!-- 文件列表筛选和搜索 -->
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-                            <div class="flex flex-wrap gap-2">
-                                <button class="file-filter-btn px-4 py-2 rounded-lg bg-primary text-white text-sm flex items-center">
-                                    <i class="fa fa-file-o mr-2"></i>全部文件
-                                </button>
-                                <button class="file-filter-btn px-4 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm flex items-center hover:bg-gray-200 transition-all-300">
-                                    <i class="fa fa-file-image-o mr-2"></i>图片
-                                </button>
-                                <button class="file-filter-btn px-4 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm flex items-center hover:bg-gray-200 transition-all-300">
-                                    <i class="fa fa-file-video-o mr-2"></i>视频
-                                </button>
-                                <button class="file-filter-btn px-4 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm flex items-center hover:bg-gray-200 transition-all-300">
-                                    <i class="fa fa-file-audio-o mr-2"></i>音频
-                                </button>
-                                <button class="file-filter-btn px-4 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm flex items-center hover:bg-gray-200 transition-all-300">
-                                    <i class="fa fa-file-text-o mr-2"></i>文档
-                                </button>
-                            </div>
-                            
-                            <div class="w-full md:w-auto flex gap-3">
-                                <div class="relative w-full md:w-64">
-                                    <input type="text" id="file-list-search" placeholder="搜索文件..." 
-                                        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg input-focus">
-                                    <i class="fa fa-search absolute left-3 top-3 text-gray-400"></i>
-                                </div>
-                                
-                                <select id="file-sort" class="border border-gray-300 rounded-lg px-3 py-2 text-sm input-focus">
-                                    <option value="date-desc">最近上传</option>
-                                    <option value="date-asc">最早上传</option>
-                                    <option value="name-asc">名称 (A-Z)</option>
-                                    <option value="name-desc">名称 (Z-A)</option>
-                                    <option value="size-desc">大小 (从大到小)</option>
-                                    <option value="size-asc">大小 (从小到大)</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <!-- 文件列表表格 -->
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-10">
-                                            <input type="checkbox" id="select-all-files" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
-                                        </th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">文件名</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">类型</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">大小</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">上传日期</th>
-                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="file-table-body" class="bg-white divide-y divide-gray-200">
-                                    <!-- 文件列表将动态添加到这里 -->
-                                    <tr>
-                                        <td colspan="6" class="px-6 py-10 text-center text-gray-500">
-                                            <i class="fa fa-circle-o-notch fa-spin mr-2"></i> 加载文件列表中...
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <!-- 分页控制 -->
-                        <div class="flex flex-col sm:flex-row justify-between items-center mt-6 pt-6 border-t border-gray-200">
-                            <div class="text-sm text-gray-700 mb-4 sm:mb-0">
-                                显示 <span id="showing-range">1-10</span> 条，共 <span id="total-files">24</span> 条
-                            </div>
-                            
-                            <div class="flex space-x-1">
-                                <button class="px-3 py-1 rounded border border-gray-300 bg-white text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                                    <i class="fa fa-chevron-left text-xs"></i>
-                                </button>
-                                <button class="px-3 py-1 rounded border border-primary bg-primary text-white">1</button>
-                                <button class="px-3 py-1 rounded border border-gray-300 bg-white text-gray-700 hover:bg-gray-50">2</button>
-                                <button class="px-3 py-1 rounded border border-gray-300 bg-white text-gray-700 hover:bg-gray-50">3</button>
-                                <button class="px-3 py-1 rounded border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
-                                    <i class="fa fa-chevron-right text-xs"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 使用统计图表 -->
-                <div id="statistics" class="bg-white rounded-xl shadow-card overflow-hidden hover:shadow-card-hover transition-all-300">
-                    <div class="p-6 border-b border-gray-100">
-                        <h2 class="text-xl font-semibold flex items-center">
-                            <i class="fa fa-bar-chart text-primary mr-3"></i> 使用统计
-                        </h2>
-                    </div>
-                    
-                    <div class="p-6">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-                            <div></div>
-                            <div class="flex space-x-2 mt-4 md:mt-0">
-                                <button class="period-btn px-3 py-1 text-sm rounded bg-primary text-white">本周</button>
-                                <button class="period-btn px-3 py-1 text-sm rounded bg-gray-100 text-gray-700 hover:bg-gray-200">本月</button>
-                                <button class="period-btn px-3 py-1 text-sm rounded bg-gray-100 text-gray-700 hover:bg-gray-200">全年</button>
-                            </div>
-                        </div>
-                        <div class="h-64">
-                            <canvas id="usage-chart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 配置区域 -->
-                <div id="settings" class="bg-white rounded-xl shadow-card overflow-hidden hover:shadow-card-hover transition-all-300">
-                    <div class="p-6 border-b border-gray-100">
-                        <h2 class="text-xl font-semibold flex items-center">
-                            <i class="fa fa-cog text-primary mr-3"></i> 配置设置
-                        </h2>
-                    </div>
-                    
-                    <div class="p-6">
-                        <div id="config-status" class="mb-6 p-4 rounded-lg bg-green-50 border border-green-100 hidden">
-                            <div class="flex items-start">
-                                <i class="fa fa-check-circle text-green-500 mt-0.5 mr-3"></i>
-                                <div>
-                                    <h3 class="font-medium text-green-800">配置已完成</h3>
-                                    <p class="text-sm text-green-700 mt-1">你的 Telegram 账号已成功配置</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div id="config-form" class="space-y-4">
-                            <div>
-                                <label for="api-id" class="block text-sm font-medium text-gray-700 mb-1">API ID</label>
-                                <input type="text" id="api-id" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-focus" placeholder="输入你的 API ID">
-                            </div>
-                            
-                            <div>
-                                <label for="api-hash" class="block text-sm font-medium text-gray-700 mb-1">API Hash</label>
-                                <input type="text" id="api-hash" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-focus" placeholder="输入你的 API Hash">
-                            </div>
-                            
-                            <div>
-                                <label for="phone-number" class="block text-sm font-medium text-gray-700 mb-1">手机号</label>
-                                <input type="text" id="phone-number" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-focus" placeholder="例如：+8613800138000">
-                            </div>
-                            
-                            <button id="save-config" class="w-full bg-primary text-white px-4 py-2.5 rounded-lg font-medium hover:bg-secondary transition-all-300">
-                                <i class="fa fa-save mr-2"></i>保存配置
-                            </button>
-                        </div>
-                        
-                        <div class="mt-6 pt-6 border-t border-gray-100">
-                            <h3 class="font-medium text-gray-700 mb-3">获取 API 密钥</h3>
-                            <p class="text-sm text-gray-600 mb-4">需要 Telegram API 密钥才能使用此工具，获取步骤：</p>
-                            <ol class="text-sm text-gray-600 space-y-2 mb-4 list-decimal pl-5">
-                                <li>访问 <a href="https://my.telegram.org/" target="_blank" class="text-primary hover:underline">https://my.telegram.org/</a></li>
-                                <li>登录你的 Telegram 账号</li>
-                                <li>点击 "API development tools"</li>
-                                <li>创建应用并获取 API ID 和 API Hash</li>
-                            </ol>
-                            <a href="https://my.telegram.org/" target="_blank" class="inline-flex items-center text-primary hover:underline text-sm">
-                                前往获取 <i class="fa fa-external-link ml-1"></i>
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -573,1043 +340,330 @@
         </main>
 
         <!-- 页脚 -->
-        <footer class="bg-white border-t border-gray-200 py-6">
-            <div class="container mx-auto px-4 max-w-6xl">
-                <div class="flex flex-col md:flex-row justify-between items-center">
-                    <div class="flex items-center space-x-2 mb-4 md:mb-0">
-                        <i class="fa fa-paper-plane text-primary"></i>
-                        <span class="text-gray-600">Telegram 上传工具 v0.7.1</span>
-                    </div>
-                    <div class="flex space-x-6">
-                        <a href="https://github.com/Nekmo/telegram-upload" target="_blank" class="text-gray-500 hover:text-primary transition-all-300">
-                            <i class="fa fa-github mr-1"></i> GitHub
-                        </a>
-                        <a href="#" class="text-gray-500 hover:text-primary transition-all-300">
-                            <i class="fa fa-question-circle mr-1"></i> 帮助
-                        </a>
-                        <a href="#" class="text-gray-500 hover:text-primary transition-all-300">
-                            <i class="fa fa-info-circle mr-1"></i> 关于
-                        </a>
-                    </div>
-                </div>
+        <footer class="bg-white border-t border-gray-200 mt-12">
+            <div class="container mx-auto px-4 py-6">
+                <p class="text-center text-gray-500 text-sm">© 2023 Telegram 上传工具 - 保护你的文件安全</p>
             </div>
         </footer>
-
-        <!-- 文件操作确认模态框 -->
-        <div id="file-action-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
-            <div class="bg-white rounded-xl shadow-xl max-w-md w-full m-4">
-                <div class="p-6 border-b border-gray-100">
-                    <h3 class="text-xl font-bold" id="modal-title">删除文件</h3>
-                </div>
-                <div class="p-6">
-                    <p id="modal-message" class="text-gray-700 mb-6">你确定要删除这个文件吗？此操作无法撤销。</p>
-                    <div class="flex space-x-3">
-                        <button id="modal-cancel" class="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition-all-300">
-                            取消
-                        </button>
-                        <button id="modal-confirm" class="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-all-300">
-                            确认删除
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
-    <!-- 帮助模态框 -->
-    <div id="help-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
-        <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-4">
-            <div class="p-6 border-b border-gray-100 flex justify-between items-center">
-                <h3 class="text-xl font-bold">使用帮助</h3>
-                <button id="close-help" class="text-gray-500 hover:text-gray-700">
-                    <i class="fa fa-times text-xl"></i>
-                </button>
-            </div>
-            <div class="p-6">
-                <div class="space-y-6">
-                    <div>
-                        <h4 class="font-semibold text-lg mb-2">首次使用步骤</h4>
-                        <ol class="list-decimal pl-5 space-y-2 text-gray-700">
-                            <li>使用用户名和密码登录系统</li>
-                            <li>获取 Telegram API ID 和 API Hash</li>
-                            <li>在配置区域填写 API 信息和手机号</li>
-                            <li>输入收到的验证码完成登录</li>
-                            <li>上传文件：拖放文件或点击"选择文件"按钮</li>
-                            <li>下载文件：在文件列表中找到文件，点击下载按钮</li>
-                        </ol>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-semibold text-lg mb-2">文件列表功能</h4>
-                        <p class="text-gray-700 mb-2">文件列表页面可以查看和管理所有已上传的文件，包括：</p>
-                        <ul class="list-disc pl-5 space-y-1 text-gray-700">
-                            <li>按文件类型筛选（全部、图片、视频、音频、文档）</li>
-                            <li>搜索文件名称</li>
-                            <li>按不同条件排序（日期、名称、大小）</li>
-                            <li>下载、分享和删除文件</li>
-                            <li>批量操作多个文件</li>
-                        </ul>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-semibold text-lg mb-2">常见问题</h4>
-                        <div class="space-y-4">
-                            <div>
-                                <p class="font-medium">如何处理大文件上传？</p>
-                                <p class="text-gray-600 text-sm mt-1">工具会自动分割大文件，你可以在上传设置中增加并行线程数提高速度</p>
-                            </div>
-                            <div>
-                                <p class="font-medium">文件保存在哪里？</p>
-                                <p class="text-gray-600 text-sm mt-1">文件会保存在你的 Telegram 账号的"已保存消息"中，只有你能看到</p>
-                            </div>
-                            <div>
-                                <p class="font-medium">上传失败怎么办？</p>
-                                <p class="text-gray-600 text-sm mt-1">检查网络连接，确认 Telegram 账号正常，然后重试上传</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- 通知提示 -->
+    <div id="notification" class="fixed bottom-4 right-4 p-4 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50 max-w-sm hidden"></div>
 
     <script>
-        // 模拟文件数据
-        const fileData = [
-            { id: 1, name: '项目报告.pdf', type: '文档', size: '2.4 MB', date: '2023-06-15', icon: 'file-pdf-o', color: 'text-red-500' },
-            { id: 2, name: '假期照片.jpg', type: '图片', size: '4.7 MB', date: '2023-06-10', icon: 'file-image-o', color: 'text-green-500' },
-            { id: 3, name: '会议记录.mp4', type: '视频', size: '256 MB', date: '2023-06-05', icon: 'file-video-o', color: 'text-purple-500' },
-            { id: 4, name: '备份文件.zip', type: '压缩包', size: '1.2 GB', date: '2023-06-01', icon: 'file-zip-o', color: 'text-yellow-500' },
-            { id: 5, name: '工作总结.docx', type: '文档', size: '1.8 MB', date: '2023-05-28', icon: 'file-word-o', color: 'text-blue-500' },
-            { id: 6, name: '产品设计图.png', type: '图片', size: '8.7 MB', date: '2023-05-25', icon: 'file-image-o', color: 'text-green-500' },
-            { id: 7, name: '软件安装包.exe', type: '程序', size: '786 MB', date: '2023-05-20', icon: 'file-exe-o', color: 'text-gray-500' },
-            { id: 8, name: '合同文档.pdf', type: '文档', size: '3.2 MB', date: '2023-05-18', icon: 'file-pdf-o', color: 'text-red-500' },
-            { id: 9, name: '背景音乐.mp3', type: '音频', size: '12.5 MB', date: '2023-05-15', icon: 'file-audio-o', color: 'text-indigo-500' },
-            { id: 10, name: '数据表格.xlsx', type: '表格', size: '5.3 MB', date: '2023-05-10', icon: 'file-excel-o', color: 'text-green-600' },
-            { id: 11, name: '演示幻灯片.pptx', type: '演示文稿', size: '18.7 MB', date: '2023-05-05', icon: 'file-powerpoint-o', color: 'text-orange-500' },
-            { id: 12, name: '源代码.tar.gz', type: '压缩包', size: '45.2 MB', date: '2023-05-01', icon: 'file-archive-o', color: 'text-yellow-500' }
+        // DOM 元素
+        const loginPage = document.getElementById('login-page');
+        const app = document.getElementById('app');
+        const loginForm = document.getElementById('login-form');
+        const loginError = document.getElementById('login-error');
+        const loginErrorMessage = document.getElementById('login-error-message');
+        const togglePassword = document.getElementById('toggle-password');
+        const loginPassword = document.getElementById('login-password');
+        const userInitial = document.getElementById('user-initial');
+        const usernameDisplay = document.getElementById('username-display');
+        const welcomeUsername = document.getElementById('welcome-username');
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userDropdown = document.getElementById('user-dropdown');
+        const logoutButton = document.getElementById('logout-button');
+        const notification = document.getElementById('notification');
+        
+        // 导航元素
+        const navLinks = document.querySelectorAll('.nav-link');
+        const uploadSection = document.getElementById('upload-section');
+        const fileListSection = document.getElementById('file-list-section');
+        const settingsSection = document.getElementById('settings-section');
+        
+        // 设置选项卡元素
+        const settingTabBtns = document.querySelectorAll('.setting-tab-btn');
+        const settingTabContents = document.querySelectorAll('.setting-tab-content');
+        const settingLinks = document.querySelectorAll('.setting-link');
+        
+        // Telegram 配置元素
+        const saveTelegramConfig = document.getElementById('save-telegram-config');
+        const telegramConfigStatus = document.getElementById('telegram-config-status');
+        const telegramConfigForm = document.getElementById('telegram-config-form');
+        const resetTelegramConfig = document.getElementById('reset-telegram-config');
+        
+        // 个人设置元素
+        const saveAccountBtn = document.getElementById('save-account-btn');
+        const changePasswordBtn = document.getElementById('change-password-btn');
+
+        // 预设的有效用户
+        const validUsers = [
+            { username: 'admin', password: 'admin123', name: '管理员' },
+            { username: 'user', password: 'user123', name: '普通用户' }
         ];
 
-        // 当前操作的文件ID
-        let currentFileId = null;
-        // 当前操作类型
-        let currentAction = '';
-
-        // 登录状态管理
-        const AuthManager = {
-            // 检查是否已登录
-            checkLoggedIn() {
-                const user = localStorage.getItem('loggedInUser');
-                return user ? JSON.parse(user) : null;
-            },
-            
-            // 登录
-            login(username, password) {
-                // 实际应用中应该发送到服务器验证
-                // 这里使用模拟验证
-                const validUsers = [
-                    { username: 'admin', password: 'admin123', name: '管理员' },
-                    { username: 'user', password: 'user123', name: '普通用户' }
-                ];
-                
-                const user = validUsers.find(u => u.username === username && u.password === password);
-                if (user) {
-                    // 保存用户信息
-                    localStorage.setItem('loggedInUser', JSON.stringify(user));
-                    return true;
-                }
-                return false;
-            },
-            
-            // 登出
-            logout() {
-                localStorage.removeItem('loggedInUser');
-                this.redirectToLogin();
-            },
-            
-            // 重定向到登录页
-            redirectToLogin() {
-                document.getElementById('login-page').classList.remove('hidden');
-                document.getElementById('app').classList.add('hidden');
-            },
-            
-            // 进入应用
-            enterApp(user) {
-                document.getElementById('login-page').classList.add('hidden');
-                document.getElementById('app').classList.remove('hidden');
-                
-                // 更新用户信息显示
-                document.getElementById('username-display').textContent = user.username;
-                document.getElementById('welcome-username').textContent = user.name || user.username;
-                document.getElementById('user-initial').textContent = user.username.charAt(0).toUpperCase();
-                
-                // 加载文件列表
-                loadFileList();
-            }
-        };
-
-        // 加载文件列表
-        const loadFileList = () => {
-            const tableBody = document.getElementById('file-table-body');
-            tableBody.innerHTML = `
-                <tr>
-                    <td colspan="6" class="px-6 py-10 text-center text-gray-500">
-                        <i class="fa fa-circle-o-notch fa-spin mr-2"></i> 加载文件列表中...
-                    </td>
-                </tr>
-            `;
-            
-            // 模拟加载延迟
-            setTimeout(() => {
-                renderFileList(fileData);
-                document.getElementById('total-files').textContent = fileData.length;
-            }, 1000);
-        };
-
-        // 渲染文件列表
-        const renderFileList = (files) => {
-            const tableBody = document.getElementById('file-table-body');
-            
-            if (files.length === 0) {
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="px-6 py-10 text-center text-gray-500">
-                            <i class="fa fa-file-o text-3xl mb-2 block"></i>
-                            没有找到文件
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            tableBody.innerHTML = files.map(file => `
-                <tr class="table-row-hover">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <input type="checkbox" class="file-select h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded" data-id="${file.id}">
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                            <i class="fa fa-${file.icon} ${file.color} text-xl mr-3"></i>
-                            <div>
-                                <div class="text-sm font-medium text-gray-900">${file.name}</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">
-                        <div class="text-sm text-gray-500">${file.type}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
-                        <div class="text-sm text-gray-500">${file.size}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">
-                        <div class="text-sm text-gray-500">${file.date}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <div class="flex justify-end space-x-2">
-                            <button class="text-primary hover:text-secondary transition-all-300" onclick="simulateDownload('${file.name}', '${file.size}')" title="下载">
-                                <i class="fa fa-download"></i>
-                            </button>
-                            <button class="text-gray-500 hover:text-gray-700 transition-all-300" onclick="showFileActionModal(${file.id}, 'share')" title="分享">
-                                <i class="fa fa-share-alt"></i>
-                            </button>
-                            <button class="text-red-500 hover:text-red-700 transition-all-300" onclick="showFileActionModal(${file.id}, 'delete')" title="删除">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        };
-
-        // 显示文件操作模态框
-        window.showFileActionModal = (fileId, action) => {
-            currentFileId = fileId;
-            currentAction = action;
-            
-            const modal = document.getElementById('file-action-modal');
-            const title = document.getElementById('modal-title');
-            const message = document.getElementById('modal-message');
-            const confirmBtn = document.getElementById('modal-confirm');
-            
-            if (action === 'delete') {
-                title.textContent = '删除文件';
-                const file = fileData.find(f => f.id === fileId);
-                message.textContent = `你确定要删除文件 "${file.name}" 吗？此操作无法撤销。`;
-                confirmBtn.textContent = '确认删除';
-                confirmBtn.className = 'flex-1 px-4 py-2.5 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-all-300';
-            } else if (action === 'share') {
-                title.textContent = '分享文件';
-                const file = fileData.find(f => f.id === fileId);
-                message.textContent = `你可以通过以下链接分享文件 "${file.name}" 给他人，有效期7天。`;
-                confirmBtn.textContent = '复制链接';
-                confirmBtn.className = 'flex-1 px-4 py-2.5 bg-primary text-white rounded-lg font-medium hover:bg-secondary transition-all-300';
-            }
-            
-            modal.classList.remove('hidden');
-        };
-
-        // 初始化图表
-        const initChart = () => {
-            const ctx = document.getElementById('usage-chart').getContext('2d');
-            const chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-                    datasets: [
-                        {
-                            label: '上传 (GB)',
-                            data: [0.8, 1.2, 0.5, 2.1, 0.7, 1.5, 0.9],
-                            borderColor: '#2563eb',
-                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        },
-                        {
-                            label: '下载 (GB)',
-                            data: [0.3, 0.5, 1.1, 0.4, 0.9, 0.6, 0.2],
-                            borderColor: '#10b981',
-                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: '数据量 (GB)'
-                            }
-                        }
-                    }
-                }
-            });
-        };
-
-        // 模拟本地文件列表
-        const loadLocalFiles = () => {
-            const filesList = document.getElementById('local-files-list');
-            filesList.innerHTML = '<div class="flex items-center justify-center py-8 text-gray-500"><i class="fa fa-circle-o-notch fa-spin mr-2"></i> 加载中...</div>';
-            
-            // 模拟加载延迟
-            setTimeout(() => {
-                filesList.innerHTML = `
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg file-hover">
-                        <div class="flex items-center">
-                            <i class="fa fa-file-pdf-o text-red-500 text-xl mr-3"></i>
-                            <div>
-                                <p class="font-medium">项目报告.pdf</p>
-                                <p class="text-xs text-gray-500">2.4 MB · 今天 14:30</p>
-                            </div>
-                        </div>
-                        <button class="text-primary hover:text-secondary transition-all-300" onclick="addFileToUpload('项目报告.pdf', '2.4 MB')">
-                            <i class="fa fa-upload"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg file-hover">
-                        <div class="flex items-center">
-                            <i class="fa fa-file-image-o text-green-500 text-xl mr-3"></i>
-                            <div>
-                                <p class="font-medium">假期照片.jpg</p>
-                                <p class="text-xs text-gray-500">4.7 MB · 昨天 09:15</p>
-                            </div>
-                        </div>
-                        <button class="text-primary hover:text-secondary transition-all-300" onclick="addFileToUpload('假期照片.jpg', '4.7 MB')">
-                            <i class="fa fa-upload"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg file-hover">
-                        <div class="flex items-center">
-                            <i class="fa fa-file-video-o text-purple-500 text-xl mr-3"></i>
-                            <div>
-                                <p class="font-medium">会议记录.mp4</p>
-                                <p class="text-xs text-gray-500">256 MB · 2023-06-12</p>
-                            </div>
-                        </div>
-                        <button class="text-primary hover:text-secondary transition-all-300" onclick="addFileToUpload('会议记录.mp4', '256 MB')">
-                            <i class="fa fa-upload"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg file-hover">
-                        <div class="flex items-center">
-                            <i class="fa fa-file-zip-o text-yellow-500 text-xl mr-3"></i>
-                            <div>
-                                <p class="font-medium">备份文件.zip</p>
-                                <p class="text-xs text-gray-500">1.2 GB · 2023-06-10</p>
-                            </div>
-                        </div>
-                        <button class="text-primary hover:text-secondary transition-all-300" onclick="addFileToUpload('备份文件.zip', '1.2 GB')">
-                            <i class="fa fa-upload"></i>
-                        </button>
-                    </div>
-                `;
-            }, 800);
-        };
-
-        // 添加文件到上传队列
-        const uploadQueue = [];
-        window.addFileToUpload = (filename, filesize) => {
-            // 检查文件是否已在队列中
-            if (uploadQueue.some(file => file.name === filename)) {
-                return;
-            }
-            
-            uploadQueue.push({ name: filename, size: filesize });
-            
-            const uploadQueueEl = document.getElementById('upload-queue');
-            const filesListEl = document.getElementById('upload-files-list');
-            
-            // 显示上传队列
-            uploadQueueEl.classList.remove('hidden');
-            
-            // 添加文件项
-            const fileItem = document.createElement('div');
-            fileItem.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-lg file-hover';
-            fileItem.dataset.filename = filename;
-            fileItem.innerHTML = `
-                <div class="flex items-center">
-                    <i class="fa fa-file-o text-gray-400 text-xl mr-3"></i>
-                    <div>
-                        <p class="font-medium">${filename}</p>
-                        <p class="text-xs text-gray-500">${filesize}</p>
-                    </div>
-                </div>
-                <button class="text-red-500 hover:text-red-700 transition-all-300 remove-upload-item">
-                    <i class="fa fa-trash"></i>
-                </button>
-            `;
-            filesListEl.appendChild(fileItem);
-            
-            // 启用上传按钮
-            document.getElementById('start-upload-btn').disabled = false;
-            
-            // 添加删除事件
-            fileItem.querySelector('.remove-upload-item').addEventListener('click', function() {
-                // 从队列中移除
-                const index = uploadQueue.findIndex(file => file.name === filename);
-                if (index !== -1) {
-                    uploadQueue.splice(index, 1);
-                }
-                
-                // 从DOM中移除
-                fileItem.remove();
-                
-                // 如果队列为空，隐藏队列并禁用上传按钮
-                if (uploadQueue.length === 0) {
-                    uploadQueueEl.classList.add('hidden');
-                    document.getElementById('start-upload-btn').disabled = true;
-                }
-            });
-        };
-
-        // 模拟上传过程
-        const simulateUpload = () => {
-            if (uploadQueue.length === 0) return;
-            
-            const firstFile = uploadQueue[0];
-            const progressBar = document.getElementById('upload-progress-bar');
-            const progressContainer = document.getElementById('upload-progress');
-            const percentageEl = document.getElementById('upload-percentage');
-            const filenameEl = document.getElementById('uploading-filename');
-            const sizeEl = document.getElementById('uploaded-size');
-            const speedEl = document.getElementById('upload-speed');
-            
-            // 显示进度条
-            progressContainer.classList.remove('hidden');
-            filenameEl.textContent = firstFile.name;
-            
-            let progress = 0;
-            const totalSize = parseFloat(firstFile.size);
-            const unit = firstFile.size.includes('GB') ? 'GB' : 'MB';
-            
-            // 模拟进度更新
-            const interval = setInterval(() => {
-                progress += Math.random() * 5;
-                if (progress > 100) progress = 100;
-                
-                progressBar.style.width = `${progress}%`;
-                percentageEl.textContent = `${Math.round(progress)}%`;
-                
-                // 更新已上传大小
-                const uploaded = (totalSize * progress / 100).toFixed(1);
-                sizeEl.textContent = `${uploaded} ${unit} / ${firstFile.size}`;
-                
-                // 更新速度
-                const speed = (Math.random() * 5 + 1).toFixed(1);
-                speedEl.textContent = `${speed} ${unit}/s`;
-                
-                // 上传完成
-                if (progress === 100) {
-                    clearInterval(interval);
-                    
-                    // 从队列中移除
-                    uploadQueue.shift();
-                    document.querySelector(`[data-filename="${firstFile.name}"]`).remove();
-                    
-                    // 更新统计
-                    const countEl = document.getElementById('uploaded-count');
-                    countEl.textContent = parseInt(countEl.textContent) + 1;
-                    
-                    // 添加到文件列表
-                    const fileType = firstFile.name.split('.').pop().toLowerCase();
-                    let type, icon, color;
-                    
-                    if (['jpg', 'jpeg', 'png', 'gif', 'bmp'].includes(fileType)) {
-                        type = '图片';
-                        icon = 'file-image-o';
-                        color = 'text-green-500';
-                    } else if (['mp4', 'avi', 'mov', 'mkv'].includes(fileType)) {
-                        type = '视频';
-                        icon = 'file-video-o';
-                        color = 'text-purple-500';
-                    } else if (['pdf', 'doc', 'docx', 'txt', 'rtf'].includes(fileType)) {
-                        type = '文档';
-                        icon = fileType === 'pdf' ? 'file-pdf-o' : 'file-word-o';
-                        color = fileType === 'pdf' ? 'text-red-500' : 'text-blue-500';
-                    } else if (['zip', 'rar', '7z', 'tar', 'gz'].includes(fileType)) {
-                        type = '压缩包';
-                        icon = 'file-zip-o';
-                        color = 'text-yellow-500';
-                    } else {
-                        type = '其他';
-                        icon = 'file-o';
-                        color = 'text-gray-500';
-                    }
-                    
-                    const today = new Date();
-                    const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-                    
-                    fileData.unshift({
-                        id: Math.max(...fileData.map(f => f.id)) + 1,
-                        name: firstFile.name,
-                        type: type,
-                        size: firstFile.size,
-                        date: dateStr,
-                        icon: icon,
-                        color: color
-                    });
-                    
-                    renderFileList(fileData);
-                    document.getElementById('total-files').textContent = fileData.length;
-                    
-                    // 显示完成消息
-                    setTimeout(() => {
-                        // 如果还有文件，继续上传下一个
-                        if (uploadQueue.length > 0) {
-                            simulateUpload();
-                        } else {
-                            progressContainer.classList.add('hidden');
-                            document.getElementById('upload-queue').classList.add('hidden');
-                            document.getElementById('start-upload-btn').disabled = true;
-                            
-                            // 显示成功消息
-                            showNotification('上传完成', '所有文件已成功上传到 Telegram', 'success');
-                        }
-                    }, 1000);
-                }
-            }, 300);
-        };
-
-        // 模拟加载远程文件列表
-        const loadRemoteFiles = () => {
-            const filesList = document.getElementById('remote-files-list');
-            filesList.innerHTML = '<div class="flex items-center justify-center py-10 text-gray-500"><i class="fa fa-circle-o-notch fa-spin mr-2"></i> 加载中...</div>';
-            
-            // 模拟加载延迟
-            setTimeout(() => {
-                filesList.innerHTML = fileData.slice(0, 4).map(file => `
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg file-hover">
-                        <div class="flex items-center">
-                            <i class="fa fa-${file.icon} ${file.color} text-xl mr-3"></i>
-                            <div>
-                                <p class="font-medium">${file.name}</p>
-                                <p class="text-xs text-gray-500">${file.size} · ${file.date}</p>
-                            </div>
-                        </div>
-                        <button class="text-green-500 hover:text-green-700 transition-all-300" onclick="simulateDownload('${file.name}', '${file.size}')">
-                            <i class="fa fa-download"></i>
-                        </button>
-                    </div>
-                `).join('');
-            }, 1200);
-        };
-
-        // 模拟下载过程
-        window.simulateDownload = (filename, filesize) => {
-            const progressBar = document.getElementById('download-progress-bar');
-            const progressContainer = document.getElementById('download-progress');
-            const percentageEl = document.getElementById('download-percentage');
-            const filenameEl = document.getElementById('downloading-filename');
-            const sizeEl = document.getElementById('downloaded-size');
-            const speedEl = document.getElementById('download-speed');
-            
-            // 显示进度条
-            progressContainer.classList.remove('hidden');
-            filenameEl.textContent = filename;
-            
-            let progress = 0;
-            const totalSize = parseFloat(filesize);
-            const unit = filesize.includes('GB') ? 'GB' : 'MB';
-            
-            // 模拟进度更新
-            const interval = setInterval(() => {
-                progress += Math.random() * 8;
-                if (progress > 100) progress = 100;
-                
-                progressBar.style.width = `${progress}%`;
-                percentageEl.textContent = `${Math.round(progress)}%`;
-                
-                // 更新已下载大小
-                const downloaded = (totalSize * progress / 100).toFixed(1);
-                sizeEl.textContent = `${downloaded} ${unit} / ${filesize}`;
-                
-                // 更新速度
-                const speed = (Math.random() * 8 + 2).toFixed(1);
-                speedEl.textContent = `${speed} ${unit}/s`;
-                
-                // 下载完成
-                if (progress === 100) {
-                    clearInterval(interval);
-                    
-                    // 更新统计
-                    const countEl = document.getElementById('downloaded-count');
-                    countEl.textContent = parseInt(countEl.textContent) + 1;
-                    
-                    // 显示完成消息
-                    setTimeout(() => {
-                        progressContainer.classList.add('hidden');
-                        showNotification('下载完成', `文件 "${filename}" 已成功下载`, 'success');
-                        loadLocalFiles(); // 刷新本地文件列表
-                    }, 1000);
-                }
-            }, 250);
-        };
-
         // 显示通知
-        const showNotification = (title, message, type = 'info') => {
-            // 检查是否已有通知，如有则移除
-            const existing = document.querySelector('.notification');
-            if (existing) existing.remove();
+        function showNotification(message, type = 'success') {
+            notification.textContent = message;
+            notification.classList.remove('hidden', 'bg-green-50', 'text-green-800', 'border', 'border-green-200', 
+                                      'bg-red-50', 'text-red-800', 'border', 'border-red-200');
             
-            // 创建通知元素
-            const notification = document.createElement('div');
-            notification.className = `notification fixed bottom-4 right-4 p-4 rounded-lg shadow-lg max-w-sm transform translate-y-10 opacity-0 transition-all duration-300 z-50 ${
-                type === 'success' ? 'bg-green-50 border border-green-200' : 
-                type === 'error' ? 'bg-red-50 border border-red-100' : 
-                'bg-blue-50 border border-blue-200'
-            }`;
+            if (type === 'success') {
+                notification.classList.add('bg-green-50', 'text-green-800', 'border', 'border-green-200');
+            } else {
+                notification.classList.add('bg-red-50', 'text-red-800', 'border', 'border-red-200');
+            }
             
-            const icon = type === 'success' ? 'check-circle' : 
-                         type === 'error' ? 'exclamation-circle' : 'info-circle';
-                         
-            const color = type === 'success' ? 'text-green-500' : 
-                          type === 'error' ? 'text-red-500' : 'text-blue-500';
+            notification.classList.remove('translate-y-20', 'opacity-0');
+            notification.classList.add('translate-y-0', 'opacity-100');
             
-            notification.innerHTML = `
-                <div class="flex">
-                    <div class="flex-shrink-0">
-                        <i class="fa fa-${icon} ${color} text-xl"></i>
-                    </div>
-                    <div class="ml-3">
-                        <h3 class="text-sm font-medium ${type === 'success' ? 'text-green-800' : 
-                                                  type === 'error' ? 'text-red-800' : 'text-blue-800'}">${title}</h3>
-                        <div class="mt-2 text-sm ${type === 'success' ? 'text-green-700' : 
-                                               type === 'error' ? 'text-red-700' : 'text-blue-700'}">
-                            <p>${message}</p>
-                        </div>
-                    </div>
-                    <button class="ml-auto flex-shrink-0 text-gray-400 hover:text-gray-500">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
-            `;
-            
-            // 添加到页面
-            document.body.appendChild(notification);
-            
-            // 显示通知
             setTimeout(() => {
-                notification.classList.remove('translate-y-10', 'opacity-0');
-            }, 10);
+                notification.classList.remove('translate-y-0', 'opacity-100');
+                notification.classList.add('translate-y-20', 'opacity-0');
+                setTimeout(() => {
+                    notification.classList.add('hidden');
+                }, 300);
+            }, 3000);
+        }
+
+        // 切换密码可见性
+        togglePassword.addEventListener('click', () => {
+            const type = loginPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+            loginPassword.setAttribute('type', type);
+            togglePassword.querySelector('i').classList.toggle('fa-eye');
+            togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+
+        // 登录处理
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = loginPassword.value;
             
-            // 3秒后自动关闭
-            const timeout = setTimeout(() => {
-                closeNotification(notification);
-            }, 5000);
+            // 查找匹配的用户
+            const user = validUsers.find(u => u.username === username && u.password === password);
             
-            // 点击关闭按钮
-            notification.querySelector('button').addEventListener('click', () => {
-                clearTimeout(timeout);
-                closeNotification(notification);
+            if (user) {
+                // 登录成功
+                loginError.classList.add('hidden');
+                // 设置用户信息
+                userInitial.textContent = user.name.charAt(0);
+                usernameDisplay.textContent = user.username;
+                welcomeUsername.textContent = user.name;
+                // 保存到本地存储
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                // 显示应用界面
+                loginPage.classList.add('hidden');
+                app.classList.remove('hidden');
+                showNotification(`欢迎回来，${user.name}!`);
+            } else {
+                // 登录失败
+                loginErrorMessage.textContent = '用户名或密码错误，请重试';
+                loginError.classList.remove('hidden');
+                // 添加抖动动画
+                loginForm.classList.add('animate-shake');
+                setTimeout(() => {
+                    loginForm.classList.remove('animate-shake');
+                }, 500);
+            }
+        });
+
+        // 用户菜单切换
+        userMenuButton.addEventListener('click', () => {
+            userDropdown.classList.toggle('hidden');
+        });
+
+        // 点击其他地方关闭用户菜单
+        document.addEventListener('click', (e) => {
+            if (!userMenuContainer.contains(e.target)) {
+                userDropdown.classList.add('hidden');
+            }
+        });
+
+        // 退出登录
+        logoutButton.addEventListener('click', () => {
+            localStorage.removeItem('currentUser');
+            app.classList.add('hidden');
+            loginPage.classList.remove('hidden');
+            loginForm.reset();
+            userDropdown.classList.add('hidden');
+            showNotification('已成功退出登录');
+        });
+
+        // 导航切换
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // 更新导航样式
+                navLinks.forEach(l => {
+                    l.classList.remove('text-primary', 'border-primary');
+                    l.classList.add('text-gray-500', 'border-transparent', 'hover:border-primary/30');
+                });
+                link.classList.remove('text-gray-500', 'border-transparent', 'hover:border-primary/30');
+                link.classList.add('text-primary', 'border-primary');
+                
+                // 显示对应的内容区域
+                const target = link.getAttribute('href').substring(1);
+                uploadSection.classList.add('hidden');
+                fileListSection.classList.add('hidden');
+                settingsSection.classList.add('hidden');
+                
+                if (target === 'upload') {
+                    uploadSection.classList.remove('hidden');
+                } else if (target === 'file-list') {
+                    fileListSection.classList.remove('hidden');
+                } else if (target === 'settings') {
+                    settingsSection.classList.remove('hidden');
+                }
             });
-        };
+        });
 
-        // 关闭通知
-        const closeNotification = (notification) => {
-            notification.classList.add('translate-y-10', 'opacity-0');
-            setTimeout(() => {
-                notification.remove();
-            }, 300);
-        };
+        // 设置选项卡切换
+        function switchTab(tabId) {
+            // 更新选项卡按钮样式
+            settingTabBtns.forEach(btn => {
+                btn.classList.remove('nav-active', 'text-primary', 'border-primary');
+                btn.classList.add('text-gray-500', 'border-transparent', 'hover:border-gray-300');
+            });
+            
+            // 更新内容显示
+            settingTabContents.forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // 激活选中的选项卡
+            const activeBtn = document.querySelector(`.setting-tab-btn[data-tab="${tabId}"]`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-gray-500', 'border-transparent', 'hover:border-gray-300');
+                activeBtn.classList.add('nav-active', 'text-primary', 'border-primary');
+            }
+            
+            const activeContent = document.getElementById(`${tabId}-tab`);
+            if (activeContent) {
+                activeContent.classList.remove('hidden');
+            }
+        }
 
-        // 页面加载完成后初始化
+        // 选项卡按钮点击事件
+        settingTabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                switchTab(tabId);
+            });
+        });
+
+        // 用户菜单中的设置链接点击事件
+        settingLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const tabId = link.getAttribute('data-tab');
+                
+                // 显示设置区域
+                navLinks.forEach(l => {
+                    l.classList.remove('text-primary', 'border-primary');
+                    l.classList.add('text-gray-500', 'border-transparent', 'hover:border-primary/30');
+                });
+                document.querySelector('a[href="#settings"]').classList.remove('text-gray-500', 'border-transparent', 'hover:border-primary/30');
+                document.querySelector('a[href="#settings"]').classList.add('text-primary', 'border-primary');
+                
+                uploadSection.classList.add('hidden');
+                fileListSection.classList.add('hidden');
+                settingsSection.classList.remove('hidden');
+                
+                // 切换到指定选项卡
+                switchTab(tabId);
+                
+                // 关闭用户菜单
+                userDropdown.classList.add('hidden');
+                
+                // 滚动到设置区域
+                settingsSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // 保存 Telegram 配置
+        saveTelegramConfig.addEventListener('click', () => {
+            const apiId = document.getElementById('api-id').value;
+            const apiHash = document.getElementById('api-hash').value;
+            const phoneNumber = document.getElementById('phone-number').value;
+            
+            if (!apiId || !apiHash || !phoneNumber) {
+                showNotification('请填写所有必填字段', 'error');
+                return;
+            }
+            
+            // 模拟保存配置
+            const config = {
+                apiId,
+                apiHash,
+                phoneNumber,
+                channel: document.getElementById('channel').value,
+                updatedAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('telegramConfig', JSON.stringify(config));
+            
+            // 显示成功状态
+            telegramConfigForm.classList.add('hidden');
+            telegramConfigStatus.classList.remove('hidden');
+            
+            showNotification('Telegram 配置已保存成功');
+        });
+
+        // 重置 Telegram 配置
+        resetTelegramConfig.addEventListener('click', () => {
+            telegramConfigStatus.classList.add('hidden');
+            telegramConfigForm.classList.remove('hidden');
+        });
+
+        // 保存个人设置
+        saveAccountBtn.addEventListener('click', () => {
+            // 模拟保存操作
+            showNotification('个人设置已保存成功');
+        });
+
+        // 修改密码
+        changePasswordBtn.addEventListener('click', () => {
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                showNotification('请填写所有密码字段', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showNotification('新密码和确认密码不匹配', 'error');
+                return;
+            }
+            
+            // 模拟密码修改
+            showNotification('密码已成功修改');
+            // 清空表单
+            document.getElementById('current-password').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-password').value = '';
+        });
+
+        // 页面加载时检查登录状态
         document.addEventListener('DOMContentLoaded', () => {
-            // 检查登录状态
-            const loggedInUser = AuthManager.checkLoggedIn();
-            if (loggedInUser) {
-                AuthManager.enterApp(loggedInUser);
-                initChart();
-                loadLocalFiles();
-                
-                // 模拟配置已完成
-                setTimeout(() => {
-                    document.getElementById('config-status').classList.remove('hidden');
-                    document.getElementById('config-form').classList.add('hidden');
-                }, 1000);
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                const user = JSON.parse(savedUser);
+                userInitial.textContent = user.name.charAt(0);
+                usernameDisplay.textContent = user.username;
+                welcomeUsername.textContent = user.name;
+                loginPage.classList.add('hidden');
+                app.classList.remove('hidden');
             }
             
-            // 登录表单提交
-            document.getElementById('login-form').addEventListener('submit', function(e) {
-                e.preventDefault();
+            // 检查是否有保存的 Telegram 配置
+            const savedConfig = localStorage.getItem('telegramConfig');
+            if (savedConfig) {
+                const config = JSON.parse(savedConfig);
+                document.getElementById('api-id').value = config.apiId;
+                document.getElementById('api-hash').value = config.apiHash;
+                document.getElementById('phone-number').value = config.phoneNumber;
+                document.getElementById('channel').value = config.channel || '';
                 
-                const username = document.getElementById('login-username').value;
-                const password = document.getElementById('login-password').value;
-                
-                // 显示加载状态
-                document.getElementById('login-button').innerHTML = '<i class="fa fa-circle-o-notch fa-spin mr-2"></i>登录中...';
-                document.getElementById('login-button').disabled = true;
-                document.getElementById('login-error').classList.add('hidden');
-                
-                // 模拟登录延迟
-                setTimeout(() => {
-                    if (AuthManager.login(username, password)) {
-                        const user = AuthManager.checkLoggedIn();
-                        AuthManager.enterApp(user);
-                        initChart();
-                        loadLocalFiles();
-                        
-                        // 模拟配置已完成
-                        setTimeout(() => {
-                            document.getElementById('config-status').classList.remove('hidden');
-                            document.getElementById('config-form').classList.add('hidden');
-                        }, 1000);
-                        
-                        showNotification('登录成功', `欢迎回来，${user.name || user.username}`, 'success');
-                    } else {
-                        // 登录失败
-                        document.getElementById('login-error').classList.remove('hidden');
-                        document.getElementById('login-button').innerHTML = '<span>登录</span><i class="fa fa-arrow-right ml-2"></i>';
-                        document.getElementById('login-button').disabled = false;
-                    }
-                }, 1500);
-            });
-            
-            // 切换密码可见性
-            document.getElementById('toggle-password').addEventListener('click', function() {
-                const passwordInput = document.getElementById('login-password');
-                const icon = this.querySelector('i');
-                
-                if (passwordInput.type === 'password') {
-                    passwordInput.type = 'text';
-                    icon.classList.remove('fa-eye-slash');
-                    icon.classList.add('fa-eye');
-                } else {
-                    passwordInput.type = 'password';
-                    icon.classList.remove('fa-eye');
-                    icon.classList.add('fa-eye-slash');
-                }
-            });
-            
-            // 用户菜单切换
-            document.getElementById('user-menu-button').addEventListener('click', function() {
-                document.getElementById('user-dropdown').classList.toggle('hidden');
-            });
-            
-            // 点击其他区域关闭用户菜单
-            document.addEventListener('click', function(e) {
-                const container = document.getElementById('user-menu-container');
-                if (!container.contains(e.target)) {
-                    document.getElementById('user-dropdown').classList.add('hidden');
-                }
-            });
-            
-            // 退出登录
-            document.getElementById('logout-button').addEventListener('click', function() {
-                AuthManager.logout();
-                showNotification('已退出登录', '你已安全退出系统', 'info');
-            });
-            
-            // 事件监听：文件拖放区域
-            const dropArea = document.getElementById('drop-area');
-            
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, preventDefaults, false);
-            });
-            
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
+                // 显示成功状态
+                telegramConfigForm.classList.add('hidden');
+                telegramConfigStatus.classList.remove('hidden');
             }
-            
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropArea.addEventListener(eventName, highlight, false);
-            });
-            
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, unhighlight, false);
-            });
-            
-            function highlight() {
-                dropArea.classList.add('border-primary', 'bg-blue-50');
-            }
-            
-            function unhighlight() {
-                dropArea.classList.remove('border-primary', 'bg-blue-50');
-            }
-            
-            dropArea.addEventListener('drop', handleDrop, false);
-            
-            function handleDrop(e) {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                
-                // 处理拖放的文件
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    const size = file.size > 1024 * 1024 * 1024 
-                        ? (file.size / (1024 * 1024 * 1024)).toFixed(2) + ' GB'
-                        : (file.size / (1024 * 1024)).toFixed(2) + ' MB';
-                    
-                    addFileToUpload(file.name, size);
-                }
-            }
-            
-            // 事件监听：文件选择
-            document.getElementById('file-input').addEventListener('change', function() {
-                for (let i = 0; i < this.files.length; i++) {
-                    const file = this.files[i];
-                    const size = file.size > 1024 * 1024 * 1024 
-                        ? (file.size / (1024 * 1024 * 1024)).toFixed(2) + ' GB'
-                        : (file.size / (1024 * 1024)).toFixed(2) + ' MB';
-                    
-                    addFileToUpload(file.name, size);
-                }
-                // 重置输入，允许重复选择同一文件
-                this.value = '';
-            });
-            
-            // 事件监听：开始上传
-            document.getElementById('start-upload-btn').addEventListener('click', simulateUpload);
-            
-            // 事件监听：刷新远程文件列表
-            document.getElementById('list-remote-files').addEventListener('click', loadRemoteFiles);
-            
-            // 事件监听：刷新本地文件
-            document.getElementById('refresh-local-files').addEventListener('click', loadLocalFiles);
-            
-            // 事件监听：快速上传按钮
-            document.getElementById('quick-upload-btn').addEventListener('click', () => {
-                document.getElementById('file-input').click();
-            });
-            
-            // 事件监听：刷新状态按钮
-            document.getElementById('refresh-stats-btn').addEventListener('click', () => {
-                showNotification('状态已刷新', '所有数据已更新至最新状态', 'info');
-            });
-            
-            // 事件监听：保存配置
-            document.getElementById('save-config').addEventListener('click', () => {
-                const apiId = document.getElementById('api-id').value;
-                const apiHash = document.getElementById('api-hash').value;
-                const phone = document.getElementById('phone-number').value;
-                
-                if (!apiId || !apiHash || !phone) {
-                    showNotification('输入不完整', '请填写所有必填字段', 'error');
-                    return;
-                }
-                
-                // 显示加载中
-                document.getElementById('save-config').innerHTML = '<i class="fa fa-circle-o-notch fa-spin mr-2"></i>配置中...';
-                document.getElementById('save-config').disabled = true;
-                
-                // 模拟配置过程
-                setTimeout(() => {
-                    document.getElementById('config-status').classList.remove('hidden');
-                    document.getElementById('config-form').classList.add('hidden');
-                    showNotification('配置成功', 'Telegram 账号已成功配置', 'success');
-                }, 2000);
-            });
-            
-            // 事件监听：帮助按钮
-            document.getElementById('help-btn').addEventListener('click', () => {
-                document.getElementById('help-modal').classList.remove('hidden');
-            });
-            
-            // 事件监听：关闭帮助
-            document.getElementById('close-help').addEventListener('click', () => {
-                document.getElementById('help-modal').classList.add('hidden');
-            });
-            
-            // 点击模态框背景关闭
-            document.getElementById('help-modal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.add('hidden');
-                }
-            });
-            
-            // 文件列表搜索
-            document.getElementById('file-list-search').addEventListener('input', function(e) {
-                const searchTerm = e.target.value.toLowerCase();
-                const filteredFiles = fileData.filter(file => 
-                    file.name.toLowerCase().includes(searchTerm)
-                );
-                renderFileList(filteredFiles);
-            });
-            
-            // 文件类型筛选
-            document.querySelectorAll('.file-filter-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // 更新按钮样式
-                    document.querySelectorAll('.file-filter-btn').forEach(b => {
-                        b.className = 'file-filter-btn px-4 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm flex items-center hover:bg-gray-200 transition-all-300';
-                    });
-                    this.className = 'file-filter-btn px-4 py-2 rounded-lg bg-primary text-white text-sm flex items-center';
-                    
-                    // 筛选文件
-                    const filterType = this.querySelector('i').className.split(' ')[1];
-                    let filteredFiles;
-                    
-                    if (filterType === 'fa-file-o') {
-                        filteredFiles = fileData; // 全部文件
-                    } else if (filterType === 'fa-file-image-o') {
-                        filteredFiles = fileData.filter(file => file.type === '图片');
-                    } else if (filterType === 'fa-file-video-o') {
-                        filteredFiles = fileData.filter(file => file.type === '视频');
-                    } else if (filterType === 'fa-file-audio-o') {
-                        filteredFiles = fileData.filter(file => file.type === '音频');
-                    } else if (filterType === 'fa-file-text-o') {
-                        filteredFiles = fileData.filter(file => 
-                            file.type === '文档' || file.type === '表格' || file.type === '演示文稿'
-                        );
-                    }
-                    
-                    renderFileList(filteredFiles);
-                });
-            });
-            
-            // 文件排序
-            document.getElementById('file-sort').addEventListener('change', function() {
-                const sortType = this.value;
-                let sortedFiles = [...fileData];
-                
-                switch(sortType) {
-                    case 'date-desc':
-                        sortedFiles.sort((a, b) => new Date(b.date) - new Date(a.date));
-                        break;
-                    case 'date-asc':
-                        sortedFiles.sort((a, b) => new Date(a.date) - new Date(b.date));
-                        break;
-                    case 'name-asc':
-                        sortedFiles.sort((a, b) => a.name.localeCompare(b.name));
-                        break;
-                    case 'name-desc':
-                        sortedFiles.sort((a, b) => b.name.localeCompare(a.name));
-                        break;
-                    case 'size-desc':
-                        sortedFiles.sort((a, b) => {
-                            const sizeA = parseFloat(a.size) * (a.size.includes('GB') ? 1024 : 1);
-                            const sizeB = parseFloat(b.size) * (b.size.includes('GB') ? 1024 : 1);
-                            return sizeB - sizeA;
-                        });
-                        break;
-                    case 'size-asc':
-                        sortedFiles.sort((a, b) => {
-                            const sizeA = parseFloat(a.size) * (a.size.includes('GB') ? 1024 : 1);
-                            const sizeB = parseFloat(b.size) * (b.size.includes('GB') ? 1024 : 1);
-                            return sizeA - sizeB;
-                        });
-                        break;
-                }
-                
-                renderFileList(sortedFiles);
-            });
-            
-            // 全选文件
-            document.getElementById('select-all-files').addEventListener('change', function() {
-                const isChecked = this.checked;
-                document.querySelectorAll('.file-select').forEach(checkbox => {
-                    checkbox.checked = isChecked;
-                });
-            });
-            
-            // 关闭文件操作模态框
-            document.getElementById('modal-cancel').addEventListener('click', function() {
-                document.getElementById('file-action-modal').classList.add('hidden');
-            });
-            
-            // 点击模态框背景关闭
-            document.getElementById('file-action-modal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.add('hidden');
-                }
-            });
-            
-            // 确认文件操作
-            document.getElementById('modal-confirm').addEventListener('click', function() {
-                if (currentAction === 'delete') {
-                    // 执行删除操作
-                    const fileIndex = fileData.findIndex(f => f.id === currentFileId);
-                    if (fileIndex !== -1) {
-                        const deletedFile = fileData.splice(fileIndex, 1)[0];
-                        renderFileList(fileData);
-                        document.getElementById('total-files').textContent = fileData.length;
-                        showNotification('删除成功', `文件 "${deletedFile.name}" 已被删除`, 'success');
-                    }
-                } else if (currentAction === 'share') {
-                    // 执行分享操作
-                    const file = fileData.find(f => f.id === currentFileId);
-                    // 模拟复制链接到剪贴板
-                    navigator.clipboard.writeText(`https://tgupload.example/share/${currentFileId}`)
-                        .then(() => {
-                            showNotification('链接已复制', `文件 "${file.name}" 的分享链接已复制到剪贴板`, 'success');
-                        })
-                        .catch(err => {
-                            showNotification('复制失败', '无法复制链接，请手动复制', 'error');
-                            console.error('无法复制: ', err);
-                        });
-                }
-                
-                document.getElementById('file-action-modal').classList.add('hidden');
-            });
-            
-            // 导航链接切换
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // 更新导航链接样式
-                    document.querySelectorAll('.nav-link').forEach(l => {
-                        l.className = 'nav-link text-gray-500 hover:text-primary transition-all-300 font-medium flex items-center whitespace-nowrap';
-                    });
-                    this.className = 'nav-link text-primary font-medium flex items-center whitespace-nowrap';
-                    
-                    // 滚动到对应区域
-                    const targetId = this.getAttribute('href').substring(1);
-                    document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
-                });
-            });
         });
     </script>
 </body>
